@@ -43,7 +43,11 @@ QString AddDialog::getType() const{
     return classComboBox->currentText();
 }
 int AddDialog::getWeight() const{
-    return weightEdit->text().toInt();
+    int weight=weightEdit->text().toInt();
+    if(weight<0){
+        weight=0;
+    }
+    return weight;
 }
 void AddDialog::setName(const QString& name) {
     nameEdit->setText(name);

@@ -12,6 +12,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Test)
+
 
 set(PROJECT_SOURCES
         main.cpp
@@ -28,8 +30,6 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ${PROJECT_SOURCES}
         adddialog.h
         adddialog.cpp
-
-
 
 
     )
@@ -91,3 +91,22 @@ install(TARGETS SweetBox_GUI
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(SweetBox_GUI)
 endif()
+
+enable_testing()
+
+link_directories(${CMAKE_CURRENT_SOURCE_DIR}/SweetLibrary/lib)
+
+add_executable(tst_adddialog
+    tst_adddialog.cpp
+    adddialog.cpp
+    adddialog.h
+)
+
+target_link_libraries(tst_adddialog
+    PRIVATE Qt${QT_VERSION_MAJOR}::Test Qt${QT_VERSION_MAJOR}::Widgets SweetLibrary
+)
+
+add_test(NAME tst_adddialog COMMAND tst_adddialog)
+
+
+
