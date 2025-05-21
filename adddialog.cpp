@@ -6,6 +6,7 @@
 AddDialog::AddDialog(QWidget *parent)
     : QDialog(parent)
 {
+
     setWindowTitle("Add Candy");
 
     // Поля ввода
@@ -33,7 +34,8 @@ AddDialog::AddDialog(QWidget *parent)
     setLayout(mainLayout);
 
     // Закрытие по кнопкам (без логики работы с данными)
-    connect(buttonBox, &QDialogButtonBox::accepted, this, &AddDialog::accept);
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &AddDialog::onAccept);
+
     connect(buttonBox, &QDialogButtonBox::rejected, this, &AddDialog::reject);
 }
 QString AddDialog::getName() const{
@@ -62,3 +64,18 @@ void AddDialog::setType(const QString& type) {
 void AddDialog::setWeight(int weight) {
     weightEdit->setText(QString::number(weight));
 }
+
+#include <QMessageBox>
+
+void AddDialog::onAccept() {
+    bool ok;
+    int weight = weightEdit->text().toInt(&ok);
+
+    if (!ok || weight <= 0) {
+        QMessageBox::warning(this, "Input Error", "Please enter a valid positive integer for weight.");
+        return; // Не закрываем окно
+    }
+
+    accept(); // Всё нормально — закрываем диалог
+}
+

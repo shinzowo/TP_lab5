@@ -27,6 +27,10 @@ private:
     QLineEdit *weightEdit;
     QDialogButtonBox *buttonBox;
 
+private slots:
+    void onAccept();
+
+
 };
 
 #endif // ADDDIALOG_H
